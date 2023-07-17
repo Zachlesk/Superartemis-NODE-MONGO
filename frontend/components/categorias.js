@@ -1,41 +1,41 @@
-import { getCategorias , postCategorias , deleteCategorias , patchCategorias } from "../API/categoriasAPI.js";
+import { getCategorias , getCategoria, postCategorias , deleteCategorias , putCategorias } from "../API/categoriasAPI.js";
 
+addEventListener('DOMContentLoaded',()=>{
+  loading();
+});
 
-async function cargaCategoria(){
+async function loading(){
   const categoria = await getCategorias();
   console.log(categoria);
   const tablaCategoria = document.querySelector("#categories");
   categoria.forEach((element,index) => {
-    const {_id , Nombre , Descripcion  , Imagen} = element;
+    const {_id , CategoriaNombre , Descripcion  , Imagen} = element;
     tablaCategoria.innerHTML+= `
       <tr>
         <th scope="row">${index+1}</th>
-        <td>${Nombre}</td>
+        <td>${CategoriaNombre}</td>
         <td>${Descripcion}</td>
         <td>${Imagen}</td>
         <td><button class="btn btn-outline-danger delete" id="${_id}">Eliminar</button></td>
-        <td><button class="btn btn-outline-warning edit" data-bs-toggle="modal" data-bs-target="#examplemodal2" id="${_id}" Nombre="${Nombre}" Descripcion="${Descripcion}" Imagen="${Imagen}">Editar</button></td>
+        <td><button class="btn btn-outline-warning edit" data-bs-toggle="modal" data-bs-target="#modalUpdate" id="${_id}" Nombre="${CategoriaNombre}" Descripcion="${Descripcion}" Imagen="${Imagen}">Editar</button></td>
       </tr>
     `
   });
 };
 
-addEventListener('DOMContentLoaded',()=>{
-  cargaCategoria();
-});
 
 const formulario = document.getElementById('addCategorias');
-formulario.addEventListener("submit", newCategoria);
+formulario.addEventListener("submit", postCategoria);
 
 
-function newCategoria(e){
+function postCategoria(e){
   e.preventDefault();
-  const Nombre = document.querySelector('#Nombre').value;
+  const CategoriaNombre = document.querySelector('#CategoriaNombre').value;
   const Descripcion = document.querySelector('#Descripcion').value;
   const Imagen  = document.querySelector('#Imagen').value;
 
   const registro = {
-    Nombre,
+    CategoriaNombre,
     Descripcion,
     Imagen,
   }
@@ -50,7 +50,7 @@ function validation(Objeto){
   return !Object.values(Objeto).every(element => element !== '')
 }
 
-const eliminar = document.querySelector('#datosCategorias');
+const eliminar = document.querySelector('#categories');
 eliminar.addEventListener('click',deleteCategoria);
 
 function deleteCategoria (e){
@@ -59,56 +59,59 @@ function deleteCategoria (e){
     const id = e.target.getAttribute('id');
     console.log(id);
 
-    const confir = confirm("Desea eliminar esta Categoria");
+    const confir = confirm("¿Quieres eliminar esta categoria?");
     if(confir){
       deleteCategorias(id);
     };
   }
 };
 
-const NewDates = document.querySelector('#datosCategorias')
-NewDates.addEventListener('click',actualizar)
+const infoCategoria = document.querySelector('#categories')
+infoCategoria.addEventListener('click',getInfo)
 
 
-function actualizar(e){
+async function getInfo(e){
   e.preventDefault();
 
-  if(e.target.classList.contains('edit')){
+  if (e.target.classList.contains("edit")) {
+    const id = e.target.getAttribute("id");
+    const informacion = await getCategoria(id);
 
-    const nomcat = e.target.getAttribute('Nombre');
-    const Nombre1 = document.querySelector('#Nombre2');
-    Nombre1.value = nomcat;
+    const {_id, CategoriaNombre, Descripcion, Imagen } = informacion;
 
-    const descat = e.target.getAttribute('Descripcion');
-    const Descripcion1 = document.querySelector('#Descripcion2');
-    Descripcion1.value = descat;
-    
-    const imgcat = e.target.getAttribute('Imagen');
-    const Imagen1 = document.querySelector('#Imagen2');
-    Imagen1.value = imgcat;
-    
-    const datosId= e.target.getAttribute('id')
-    console.log(datosId);
-    const newDat = document.querySelector('#edit')
-    newDat.addEventListener('submit', updateCategoria)
+    const CategoriaNombreEdit = document.querySelector('#CategoriaNombreEdit');
+    const DescripcionEdit = document.querySelector('#DescripcionEdit');
+    const ImagenEdit = document.querySelector('#ImagenEdit');
+    const idEdit = document.querySelector('#idEdit');
 
-
-    let datos={};
-    function updateCategoria(e){
-      e.preventDefault();
-      const Nombre = document.querySelector('#Nombre2').value ;
-      const Descripcion = document.querySelector('#Descripcion2').value;
-      const Imagen = document.querySelector('#Imagen2').value;
-      console.log(Nombre);
-
-      datos={
-        _id:datosId,
-        Nombre,
-        Descripcion,
-        Imagen
-      }
-      console.log(datos._id);
-      patchCategorias(datos)
-    }  
-  }
+    CategoriaNombreEdit.value = CategoriaNombre;
+    DescripcionEdit.value = Descripcion;
+    ImagenEdit.value = Imagen;
+    idEdit.value = _id; 
 }
+};
+
+
+//Update
+const editar = document.querySelector("#formEditCategoria");
+editar.addEventListener('submit', actualizar)
+
+function actualizar(e){
+e.preventDefault();
+const id = document.querySelector('#idEdit').value;
+const CategoriaNombre = document.querySelector('#CategoriaNombreEdit').value;
+const Descripcion = document.querySelector('#DescripcionEdit').value;
+const Imagen = document.querySelector('#ImagenEdit').value;
+
+const datos ={
+    CategoriaNombre,
+    Descripcion,
+    Imagen
+}
+
+alert('Datos editados correctamente');
+
+return putCategorias(datos,id);
+}; 
+
+    

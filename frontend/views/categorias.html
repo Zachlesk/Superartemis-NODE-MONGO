@@ -124,21 +124,21 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form id="myFormCategoria">
+            <form id="formCategoria">
               <div class="modal-body">
                 <div class="row g-3">
                   <div class="col-12">
                     <label
-                      for="inputCategoriaNombre"
+                      for="CategoriaNombre"
                       class="form-label"
-                      title="Nombre"
+                      title="CategoriaNombre"
                     >
-                      Nombre Categoria
+                      Nombre de la categoria:
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="inputCategoriaNombre"
+                      id="CategoriaNombre"
                       placeholder="Ingrese el Nombre de la Categoria"
                       name="CategoriaNombre"
                       required
@@ -146,30 +146,30 @@
                   </div>
                   <div class="col-12">
                     <label
-                      for="inputDescripcion"
+                      for="Descripcion"
                       class="form-label"
                       title="Descripcion"
                     >
-                      Descripcion
+                      Descripcion:
                     </label>
                     <input
                       type="text"
                       class="form-control"
-                      id="inputDescripcion"
-                      placeholder="Ingresa la Descripcion"
+                      id="Descripcion"
+                      placeholder="Ingresa la descripcion de la categoria"
                       name="Descripcion"
                       required
                     />
                   </div>
                   <div class="col-12">
-                    <label for="inputImagen" class="form-label" title="Imagen">
+                    <label for="Imagen" class="form-label" title="Imagen">
                       Imagen
                     </label>
                     <input
                       type="file"
                       class="form-control"
-                      id="inputImagen"
-                      placeholder="Ingresa La imagen de la categoria"
+                      id="Imagen"
+                      placeholder="Ingresa la imagen de la categoria"
                       name="Imagen"
                       required
                     />
@@ -195,7 +195,13 @@
         </div>
       </div>
     </div>
+
+
+    
     <div class="categories container overflow-auto">
+
+
+
       <table class="table table-striped">
         <thead class="thead">
           <tr>
@@ -209,7 +215,46 @@
         </thead>
         <tbody id="categories" class="listado-estudiantes"></tbody>
       </table>
+
+
+
     </div>
+
+    <div class="modal fade" id="modalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h1 class="modal-title fs-5 modaltitulo" id="exampleModalLabel">Editar la categoria</h1>
+          </div>
+          <div class="modal-body">
+              <form class="formularios" id="formEditCategoria">
+                <input type="hidden" id="idEdit" name="">
+                  <div class="col-12">
+                    <label for="CategoriaNombreEdit" class="form-label" title="CategoriaNombreEdit">
+                      Nombre de la categoria:
+                    </label>
+                    <input type="text" class="form-control" id="CategoriaNombreEdit" placeholder="Ingrese el nombre de la categoria"  name="CategoriaNombreEdit" required/>
+                  </div>
+                  <div class="col-12">
+                    <label for="DescripcionEdit" class="form-label" title="DescripcionEdit">
+                      Descripcion de la categoria:
+                    </label>
+                    <input type="text" class="form-control" id="DescripcionEdit" placeholder="Ingrese la descripcion de la categoria" name="DescripcionEdit" required/>
+                  </div>
+                  <div class="col-12">
+                    <label for="ImagenEdit" class="form-label" title="ImagenEdit">
+                      Imagen de la categoria:
+                    </label>
+                    <input type="text" class="form-control" id="ImagenEdit" placeholder="Ingrese la imagen de la categoria" name="ImagenEdit" required/>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary btnForm" data-bs-dismiss="modal">Cerrar</button>
+                      <button type="input" class="btn btn-primary btnForm">Actualizar</button>
+              </form>
+          </div>
+          </div>
+      </div>
+      </div>
     <img src="../Assets/img/imagen.png" class="imagen" />
   </body>
 </html>
